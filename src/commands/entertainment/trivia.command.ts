@@ -70,9 +70,11 @@ export default {
             .setDescription("20초 내로 아래 메뉴에서 선택해주세요")
             .setTimestamp();
 
+        const now = new Date().getTime();
+
         const row = new MessageActionRow().addComponents(
             new MessageSelectMenu()
-                .setCustomId("answer_menu")
+                .setCustomId(`answer_menu_${now}`)
                 .setPlaceholder("답을 고르세요")
                 .addOptions(
                     type === "multiple"
@@ -116,7 +118,7 @@ export default {
         });
 
         collector?.on("collect", (i) => {
-            if (i.customId !== "answer_menu") return;
+            if (i.customId !== `answer_menu_${now}`) return;
             const selected = (i as SelectMenuInteraction).values[0];
 
             if (type === "multiple") {
