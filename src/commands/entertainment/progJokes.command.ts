@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
+import { MessageEmbed, User } from "discord.js";
 import axios from "axios";
 import { Command } from "../../types";
 
@@ -14,16 +14,15 @@ export default {
             const res = await axios.get(
                 "https://official-joke-api.appspot.com/jokes/programming/random"
             );
-            const json = res.data;
+            const { setup, punchline } = res.data[0];
 
-            const { setup, punchline } = json[0];
+            const user = interaction.member?.user as User;
 
             const embed = new MessageEmbed()
                 .setTitle(setup)
                 .setDescription(`***${punchline}***\n\n(두둥탁)`)
-                .setFooter(
-                    "from `https://github.com/15Dkatz/official_joke_api`"
-                );
+                .setAuthor(user.tag, user.avatarURL() || "")
+                .setTimestamp();
 
             await interaction.editReply({ embeds: [embed] });
         } catch (err) {
