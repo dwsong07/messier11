@@ -3,6 +3,7 @@ import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import commands from "./commands";
 import { token } from "../config.json";
+import Button from "./components/Button";
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -15,6 +16,8 @@ client.once("ready", async () => {
 
     client.commands = commands;
     await registerSlashCommands();
+
+    Button.init(client);
 });
 
 async function registerSlashCommands() {
@@ -46,9 +49,9 @@ async function registerSlashCommands() {
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    if (!client.commands.has(interaction.commandName)) return;
-
     try {
+        if (!client.commands.has(interaction.commandName)) return;
+
         await client.commands
             .get(interaction.commandName)
             ?.execute(interaction);
