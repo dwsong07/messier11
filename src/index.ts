@@ -7,6 +7,7 @@ import Button from "./components/Button";
 import SelectMenu from "./components/SelectMenu";
 import { dbInit } from "./db";
 import Parser from "rss-parser";
+import rssInterval from "./rssInterval";
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -29,6 +30,9 @@ client.once("ready", async () => {
 
     // RSS Parser Init
     client.parser = new Parser();
+
+    // Set rss interval
+    rssInterval(client);
 });
 
 async function registerSlashCommands() {
