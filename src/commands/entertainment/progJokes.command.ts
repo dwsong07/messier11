@@ -16,12 +16,13 @@ export default {
             );
             const { setup, punchline } = res.data[0];
 
-            const user = interaction.member?.user as User;
-
             const embed = new MessageEmbed()
                 .setTitle(setup)
                 .setDescription(`***${punchline}***\n\n(두둥탁)`)
-                .setAuthor(user.tag, user.avatarURL() || "")
+                .setAuthor(
+                    interaction.user.tag,
+                    interaction.user.displayAvatarURL()
+                )
                 .setTimestamp();
 
             await interaction.editReply({ embeds: [embed] });

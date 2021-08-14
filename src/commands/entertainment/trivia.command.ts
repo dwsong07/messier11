@@ -63,9 +63,11 @@ export default {
 
         const answers = shuffle([correct_answer, ...incorrect_answers]);
 
-        const user = interaction.member?.user as User;
         const embed = new MessageEmbed()
-            .setAuthor(user.tag, user.avatarURL() || "")
+            .setAuthor(
+                interaction.user.tag,
+                interaction.user.displayAvatarURL() || ""
+            )
             .setTitle(`Q. ${question}`)
             .setDescription("20초 내로 아래 메뉴에서 선택해주세요")
             .setTimestamp();
