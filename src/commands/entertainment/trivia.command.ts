@@ -66,8 +66,8 @@ export default {
             const answers = shuffle([correct_answer, ...incorrect_answers]);
 
             const embed = new MessageEmbed()
-                .setAuthor(
-                    interaction.user.tag,
+                .setFooter(
+                    interaction.user.username,
                     interaction.user.displayAvatarURL() || ""
                 )
                 .setTitle(`Q. ${question}`)

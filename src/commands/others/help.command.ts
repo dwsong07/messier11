@@ -1,5 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { ButtonInteraction, MessageActionRow, MessageEmbed } from "discord.js";
+import {
+    ButtonInteraction,
+    MessageActionRow,
+    MessageEmbed,
+    User,
+} from "discord.js";
 import Button from "../../components/Button";
 import { Command } from "../../types";
 
@@ -7,7 +12,8 @@ import { Command } from "../../types";
 function makeHelpEmbed(
     commands: Partial<SlashCommandBuilder>[],
     currentPage: number,
-    pageLength: number
+    pageLength: number,
+    user: User
 ) {
     return new MessageEmbed()
         .setTitle(`도움말 ${currentPage + 1}/${pageLength}`)
@@ -16,7 +22,9 @@ function makeHelpEmbed(
                 name: `\`${command.name ?? ""}\``,
                 value: command.description ?? "",
             }))
-        );
+        )
+        .setTimestamp()
+        .setFooter(user.username, user.displayAvatarURL());
 }
 
 export default {
@@ -41,7 +49,8 @@ export default {
             const embed = makeHelpEmbed(
                 commandsList[0],
                 currentPage,
-                pageLength
+                pageLength,
+                interaction.user
             );
 
             const makeButton = (label: string, customId: string) =>
@@ -79,7 +88,8 @@ export default {
                 const embed = makeHelpEmbed(
                     commandsList[currentPage],
                     currentPage,
-                    pageLength
+                    pageLength,
+                    interaction.user
                 );
 
                 interaction.editReply({ embeds: [embed] });
@@ -95,7 +105,8 @@ export default {
                 const embed = makeHelpEmbed(
                     commandsList[currentPage],
                     currentPage,
-                    pageLength
+                    pageLength,
+                    interaction.user
                 );
 
                 interaction.editReply({ embeds: [embed] });

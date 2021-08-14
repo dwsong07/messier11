@@ -19,8 +19,8 @@ export default {
             const embed = new MessageEmbed()
                 .setTitle(setup)
                 .setDescription(`***${punchline}***\n\n(두둥탁)`)
-                .setAuthor(
-                    interaction.user.tag,
+                .setFooter(
+                    interaction.user.username,
                     interaction.user.displayAvatarURL()
                 )
                 .setTimestamp();
