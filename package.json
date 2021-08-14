@@ -12,6 +12,9 @@
         "discord.js": "^13.0.1",
         "he": "^1.2.0",
         "pm2": "^5.1.0",
+        "rss-parser": "^3.12.0",
+        "sqlite": "^4.0.23",
+        "sqlite3": "^5.0.2",
         "typescript": "^4.3.5"
     },
     "devDependencies": {
@@ -31,6 +34,8 @@
         "start": "pm2 start ecosystem.config.js",
         "stop": "pm2 stop messier11",
         "logs": "pm2 logs messier11",
-        "monit": "pm2 monit messier11"
+        "monit": "pm2 monit messier11",
+        "db_dev_init": "rm -f data.db && sqlite3 data.db < init.sql",
+        "db_prod_init": "rm -f build/data.db && sqlite3 build/data.db < init.sql"
     }
 }

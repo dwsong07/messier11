@@ -5,6 +5,8 @@ import commands from "./commands";
 import { token } from "../config.json";
 import Button from "./components/Button";
 import SelectMenu from "./components/SelectMenu";
+import { dbInit } from "./db";
+import Parser from "rss-parser";
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -18,8 +20,15 @@ client.once("ready", async () => {
     client.commands = commands;
     await registerSlashCommands();
 
+    // Components init
     Button.init(client);
     SelectMenu.init(client);
+
+    // DB Init
+    client.db = await dbInit();
+
+    // RSS Parser Init
+    client.parser = new Parser();
 });
 
 async function registerSlashCommands() {
