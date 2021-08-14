@@ -1,9 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import {
-    MessageActionRow,
-    MessageComponentInteraction,
-    MessageEmbed,
-} from "discord.js";
+import { ButtonInteraction, MessageActionRow, MessageEmbed } from "discord.js";
 import Button from "../../components/Button";
 import { Command } from "../../types";
 
@@ -54,18 +50,18 @@ export default {
                     .setLabel(label)
                     .setStyle("PRIMARY");
 
-            const prevButton = makeButton("🡄", "prevButton");
-            const nextButton = makeButton("🡆", "nextButton");
+            const prevButton = makeButton("🡄", "help_prevBtn");
+            const nextButton = makeButton("🡆", "help_nextBtn");
 
             const row = new MessageActionRow().addComponents(
-                prevButton,
-                nextButton
+                prevButton.get(),
+                nextButton.get()
             );
 
             interaction.reply({ embeds: [embed], components: [row] });
 
-            const itIsNotForYou = (i: MessageComponentInteraction) => {
-                if (i.user.id !== interaction.user.id) {
+            const itIsNotForYou = (i: ButtonInteraction) => {
+                if (i.user?.id !== interaction.user.id) {
                     i.reply({
                         content: "직접 /help 하세요",
                         ephemeral: true,
@@ -75,7 +71,7 @@ export default {
             };
 
             prevButton.onClick((i) => {
-                if (itIsNotForYou(i)) return;
+                if (itIsNotForYou(i as ButtonInteraction)) return;
 
                 currentPage =
                     currentPage === 0 ? pageLength - 1 : currentPage - 1;
@@ -87,10 +83,11 @@ export default {
                 );
 
                 interaction.editReply({ embeds: [embed] });
+                i.update({}); // For preventing "This interaction failed"
             });
 
             nextButton.onClick((i) => {
-                if (itIsNotForYou(i)) return;
+                if (itIsNotForYou(i as ButtonInteraction)) return;
 
                 currentPage =
                     currentPage === pageLength - 1 ? 0 : currentPage + 1;
@@ -102,6 +99,7 @@ export default {
                 );
 
                 interaction.editReply({ embeds: [embed] });
+                i.update({});
             });
 
             // Cleanup
@@ -110,8 +108,8 @@ export default {
                 nextButton.removeEventListener();
 
                 const row = new MessageActionRow().addComponents(
-                    prevButton.setDisabled(true),
-                    nextButton.setDisabled(true)
+                    prevButton.setDisabled(true).get(),
+                    nextButton.setDisabled(true).get()
                 );
 
                 interaction.editReply({ embeds: [embed], components: [row] });

@@ -4,6 +4,7 @@ import { Routes } from "discord-api-types/v9";
 import commands from "./commands";
 import { token } from "../config.json";
 import Button from "./components/Button";
+import SelectMenu from "./components/SelectMenu";
 
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -18,6 +19,7 @@ client.once("ready", async () => {
     await registerSlashCommands();
 
     Button.init(client);
+    SelectMenu.init(client);
 });
 
 async function registerSlashCommands() {
