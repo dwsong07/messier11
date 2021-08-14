@@ -37,7 +37,12 @@ export default {
 
             const embed = new MessageEmbed()
                 .setTitle(":white_check_mark: RSS 구독을 삭제했습니다.")
-                .setDescription(`id: ${id}`);
+                .setDescription(`id: ${id}`)
+                .setFooter(
+                    interaction.user.username,
+                    interaction.user.displayAvatarURL()
+                )
+                .setTimestamp();
 
             interaction.reply({ embeds: [embed] });
         } catch (err) {
