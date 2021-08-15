@@ -9,6 +9,8 @@ import { dbInit } from "./db";
 import Parser from "rss-parser";
 import rssInterval from "./rssInterval";
 
+const Timetable = require("comcigan-parser");
+
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
@@ -33,6 +35,10 @@ client.once("ready", async () => {
 
     // Set rss interval
     rssInterval(client);
+
+    // Comcigan parser Init
+    client.timetable = new Timetable();
+    await client.timetable.init();
 });
 
 async function registerSlashCommands() {
