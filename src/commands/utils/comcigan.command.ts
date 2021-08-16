@@ -82,8 +82,10 @@ export default {
                 };
 
                 setTimeout(cleanUp, 20000);
-            } else {
+            } else if (schoolSearch.length === 1) {
                 await showTimeTable(0, interaction);
+            } else {
+                interaction.reply("그런 학교 없대요");
             }
 
             async function showTimeTable(
