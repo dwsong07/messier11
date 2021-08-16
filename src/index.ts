@@ -39,6 +39,17 @@ client.once("ready", async () => {
     // Comcigan parser Init
     client.timetable = new Timetable();
     await client.timetable.init();
+
+    // Set activity
+    const setActivity = () => {
+        client.user?.setActivity(
+            `Messier 11 || ${client.guilds.cache.size}개 서버`
+        );
+        console.log(client.guilds.cache.map((guild) => guild.name));
+    };
+
+    setActivity();
+    setInterval(setActivity, 5 * 60 * 1000); // 5 mins
 });
 
 async function registerSlashCommands() {
