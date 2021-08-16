@@ -31,7 +31,11 @@ export default {
             const schoolName = interaction.options.getString("학교이름");
             const timetable = interaction.client.timetable;
 
-            const schoolSearch = await timetable.search(schoolName);
+            const schoolSearch = await timetable
+                .search(schoolName)
+                .catch(() => {
+                    interaction.reply("그런 학교 없대요!");
+                });
 
             if (schoolSearch.length > 1) {
                 const embed = new MessageEmbed()
@@ -84,8 +88,6 @@ export default {
                 setTimeout(cleanUp, 20000);
             } else if (schoolSearch.length === 1) {
                 await showTimeTable(0, interaction);
-            } else {
-                interaction.reply("그런 학교 없대요");
             }
 
             async function showTimeTable(
