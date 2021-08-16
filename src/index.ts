@@ -82,4 +82,10 @@ client.on("interactionCreate", async (interaction) => {
     }
 });
 
+client.on("messageCreate", (msg) => {
+    if (msg.content === ";;hellothisisverification") {
+        msg.reply("Messier 101#7840 (779521018200457236)");
+    }
+});
+
 client.login(token);
